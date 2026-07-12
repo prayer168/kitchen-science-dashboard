@@ -4,6 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>廚房中的科學｜互動視覺學習儀表板</title>
+  <meta name="description" content="適合國小中高年級的廚房科學互動教材，探索常見材料、溶解、天然酸鹼指示劑與生活應用。" />
+  <meta property="og:locale" content="zh_TW" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="廚房中的科學" />
+  <meta property="og:title" content="廚房中的科學｜互動視覺學習儀表板" />
+  <meta property="og:description" content="動手操作材料、溶解、菜汁變色與生活應用，完成 10 題以上的科學挑戰。" />
+  <meta property="og:url" content="https://prayer168.github.io/kitchen-science-dashboard/" />
+  <meta property="og:image" content="https://prayer168.github.io/kitchen-science-dashboard/img/og/kitchen-science-dashboard.png" />
+  <meta property="og:image:secure_url" content="https://prayer168.github.io/kitchen-science-dashboard/img/og/kitchen-science-dashboard.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="廚房中的科學互動教材預覽圖，呈現燒杯、紫高麗菜與廚房材料。" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="廚房中的科學｜互動視覺學習儀表板" />
+  <meta name="twitter:description" content="探索廚房材料、溶解、菜汁變色與生活中的科學。" />
+  <meta name="twitter:image" content="https://prayer168.github.io/kitchen-science-dashboard/img/og/kitchen-science-dashboard.png" />
   <style>
     :root {
       --bg: #fffaf3;
@@ -81,7 +98,7 @@
 
     .status-board {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: minmax(180px, 260px);
       gap: 12px;
       margin-top: 18px;
     }
@@ -427,6 +444,67 @@
     .quiz-options button.correct { border-color: #89d5a7; background: #effcf3; }
     .quiz-options button.wrong { border-color: #f3a3a3; background: #fff1f1; }
 
+    .quiz-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 12px 0;
+      flex-wrap: wrap;
+    }
+    .action-btn, .speak-btn, .resource-link {
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .action-btn { background: var(--accent); color: #fff; }
+    .action-btn.secondary { background: #fff; color: var(--text); border: 1px solid var(--line); }
+    .action-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    .application-grid, .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .application-card { overflow: hidden; }
+    .application-stage {
+      position: relative;
+      height: 150px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #fff8e8, #f5edff);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .science-object { font-size: 4.6rem; transition: transform .7s ease, filter .7s ease, opacity .5s ease; }
+    .application-card.active .science-object { transform: scale(1.16) rotate(4deg); }
+    .science-effect { position:absolute; inset:auto 12px 10px; text-align:center; font-weight:900; color:#6d28d9; opacity:0; transform:translateY(14px); transition:.5s ease; }
+    .application-card.active .science-effect { opacity:1; transform:translateY(0); }
+    .application-card.active[data-effect="rise"] .science-object { transform: translateY(-18px) scale(1.24); }
+    .application-card.active[data-effect="mix"] .science-object { animation: shake .7s ease 2; }
+    .application-card.active[data-effect="brown"] .science-object { filter: sepia(.85) saturate(.8); }
+    .application-card.active[data-effect="freeze"] .science-object { filter: drop-shadow(0 0 14px #54b4d3); }
+    @keyframes shake { 25%{transform:rotate(-10deg)} 75%{transform:rotate(10deg)} }
+
+    .resource-card { display:flex; flex-direction:column; }
+    .resource-card .resource-link { margin-top:auto; background:#eef8fc; color:#176b87; }
+    .resource-meta { font-size:.82rem; color:var(--muted); margin:8px 0 14px; }
+    .voice-box { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .speak-btn { background:#6d28d9; color:#fff; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+
     .small { font-size: .92rem; color: var(--muted); }
     .two-col-list {
       display: grid;
@@ -466,14 +544,6 @@
               <div class="label">學習主題</div>
               <div class="value">3 大單元</div>
             </div>
-            <div class="status-card">
-              <div class="label">互動操作</div>
-              <div class="value">滑桿 + 點擊</div>
-            </div>
-            <div class="status-card">
-              <div class="label">建議對象</div>
-              <div class="value">國小中高年級</div>
-            </div>
           </div>
         </div>
         <div class="kitchen-illustration" aria-hidden="true">
@@ -494,7 +564,9 @@
       <button class="tab-btn active" data-tab="materials">認識廚房裡的材料</button>
       <button class="tab-btn" data-tab="solubility">物質能溶解的量</button>
       <button class="tab-btn" data-tab="color">菜汁變色了</button>
+      <button class="tab-btn" data-tab="applications">生活小應用</button>
       <button class="tab-btn" data-tab="quiz">挑戰小測驗</button>
+      <button class="tab-btn" data-tab="resources">自主學習的影音或資料</button>
     </div>
 
     <section id="materials" class="panel active">
@@ -516,6 +588,8 @@
             <option value="salt">食鹽</option>
             <option value="sugar">砂糖</option>
             <option value="baking">小蘇打</option>
+            <option value="citric">檸檬酸</option>
+            <option value="msg">味精</option>
           </select>
 
           <label for="tempRange">水溫：<span id="tempValue">30</span>°C</label>
@@ -573,6 +647,15 @@
           <div class="ph-strip" id="phStrip"></div>
           <div class="badge" id="phBadge">目前狀態：中性</div>
           <p class="small" id="colorExplain">紫高麗菜汁在中性時常接近紫色。</p>
+          <div class="card" style="margin-top:16px; background:#fffaf6;">
+            <h3>如何檢定酸鹼性？</h3>
+            <div class="two-col-list small">
+              <div>① 把等量的待測液分別裝入透明小杯。</div>
+              <div>② 每杯滴入相同量的紫高麗菜汁。</div>
+              <div>③ 和色帶比較：偏紅為酸性、紫色接近中性、藍綠為鹼性。</div>
+              <div>④ 記錄顏色；不品嚐待測液，也不要混合不明清潔劑。</div>
+            </div>
+          </div>
         </div>
         <div class="card">
           <div class="indicator-wrap">
@@ -596,14 +679,30 @@
       </div>
     </section>
 
+    <section id="applications" class="panel">
+      <div class="card" style="margin-bottom:18px;">
+        <h2>生活小應用</h2>
+        <p class="sub">廚房裡每天都在發生科學變化。按下每張卡片的「看看變化」，觀察現象，再想想它和前面學過的材料、溶解或酸鹼概念有什麼關係。</p>
+      </div>
+      <div class="application-grid" id="applicationGrid"></div>
+    </section>
+
     <section id="quiz" class="panel">
       <div class="grid grid-2">
         <div class="card">
-          <h2>學習挑戰站</h2>
-          <p class="sub">做完前面三個單元後，來測試一下你對廚房科學的理解。每次重整頁面都可以再玩一次。</p>
+          <h2>單元五｜學習挑戰站</h2>
+          <p class="sub">依序完成 12 題廚房科學挑戰。每題作答後會立即顯示正確答案與解說。</p>
+          <div class="quiz-toolbar">
+            <strong id="quizProgress">第 1／12 題</strong>
+            <span class="badge" id="quizScore">得分：0</span>
+          </div>
           <h3 id="quizQuestion">哪一種材料最不容易溶在水中？</h3>
           <div class="quiz-options" id="quizOptions"></div>
           <p class="small" id="quizFeedback">請選一個答案。</p>
+          <div class="quiz-toolbar">
+            <button class="action-btn" id="nextQuiz" type="button" disabled>下一題</button>
+            <button class="action-btn secondary" id="restartQuiz" type="button">重新挑戰</button>
+          </div>
         </div>
         <div class="card">
           <h3>這個儀表板可以怎麼用？</h3>
@@ -621,7 +720,24 @@
       </div>
     </section>
 
-    <div class="footer-note">廚房中的科學｜互動視覺學習儀表板｜單檔 index.html 可直接部署到 GitHub Pages</div>
+    <section id="resources" class="panel">
+      <div class="card" style="margin-bottom:18px;">
+        <h2>自主學習的影音或資料</h2>
+        <p class="sub" id="voiceSummary">廚房科學就在日常生活中。材料能不能溶於水，和材料本身、水溫及加入量有關；紫高麗菜汁能用顏色幫助我們判斷酸鹼性；烘焙、乳化、凝固與氧化，也都藏著可以觀察的科學變化。</p>
+        <div class="voice-box">
+          <button class="speak-btn" id="speakSummary" type="button">🔊 朗讀學習重點</button>
+          <button class="action-btn secondary" id="stopSpeaking" type="button">停止朗讀</button>
+          <span class="small" id="speechStatus" aria-live="polite">可使用瀏覽器語音朗讀。</span>
+        </div>
+      </div>
+      <div class="resource-grid" id="resourceGrid"></div>
+      <div class="card" style="margin-top:18px; background:#fffaf6;">
+        <h3>安全提醒</h3>
+        <p class="small">進行廚房實驗時，需由成人陪同；不品嚐實驗材料、不混合不明清潔劑，碰到熱水、刀具或刺激性材料時要特別小心。</p>
+      </div>
+    </section>
+
+    <div class="footer-note">廚房中的科學｜互動視覺學習儀表板｜資料連結檢查日期：2026-07-12</div>
   </div>
 
   <script>
@@ -661,6 +777,54 @@
         name: "玉米粉／太白粉",
         desc: "遇水後不一定真正溶解，常形成混濁或沉澱，是觀察懸浮與沉降的好材料。",
         tags: ["不完全溶解", "粉末", "可能沉澱"]
+      },
+      {
+        icon: "🌾",
+        name: "麵粉",
+        desc: "麵粉加水會形成黏稠麵糰，不是完全溶解；揉製時蛋白質會形成有彈性的麵筋網絡。",
+        tags: ["不完全溶解", "形成麵糰", "含澱粉與蛋白質"]
+      },
+      {
+        icon: "🍚",
+        name: "白米",
+        desc: "白米含有大量澱粉，煮飯時吸水、受熱而膨脹，口感也從硬變軟。",
+        tags: ["吸水", "澱粉糊化", "遇熱變軟"]
+      },
+      {
+        icon: "🥛",
+        name: "牛奶",
+        desc: "牛奶是水、脂肪、蛋白質等組成的混合物，看似均勻，其實有微小脂肪滴分散其中。",
+        tags: ["乳化液", "液體", "含蛋白質"]
+      },
+      {
+        icon: "🥚",
+        name: "雞蛋",
+        desc: "蛋白受熱後會由透明變白並凝固，這是蛋白質結構改變的結果。",
+        tags: ["蛋白質", "受熱凝固", "不可逆變化"]
+      },
+      {
+        icon: "🍋",
+        name: "檸檬汁",
+        desc: "檸檬汁含有檸檬酸，味道酸，能讓紫高麗菜汁偏紅，也能減慢部分水果褐變。",
+        tags: ["酸性", "可混入水", "含檸檬酸"]
+      },
+      {
+        icon: "🫘",
+        name: "醬油",
+        desc: "醬油含水、鹽、胺基酸與色素等多種成分，是發酵製成的複雜水溶液。",
+        tags: ["混合物", "發酵", "含鹽"]
+      },
+      {
+        icon: "🍞",
+        name: "酵母",
+        desc: "酵母是微小生物，適當溫度下能利用糖產生二氧化碳，讓麵糰膨起來。",
+        tags: ["微生物", "發酵", "產生氣體"]
+      },
+      {
+        icon: "🧈",
+        name: "奶油",
+        desc: "奶油富含脂肪，低溫時較硬、加熱會融化；冷卻後又能重新凝固。",
+        tags: ["脂肪", "融化", "可逆變化"]
       }
     ];
 
@@ -687,9 +851,11 @@
     });
 
     const solubilityMap = {
-      salt: { base: 32, name: '食鹽', explain: '食鹽在水中的溶解量會隨溫度略有變化。' },
-      sugar: { base: 45, name: '砂糖', explain: '砂糖在較高溫時通常能溶解更多。' },
-      baking: { base: 18, name: '小蘇打', explain: '小蘇打能溶於水，但大量加入時也可能留下未溶部分。' }
+      salt: { base: 32, rate: 0.12, name: '食鹽', explain: '食鹽可溶於水，溫度升高時最大溶解量只會小幅增加。' },
+      sugar: { base: 45, rate: 0.55, name: '砂糖', explain: '砂糖可溶於水，較高溫時通常能溶解更多。' },
+      baking: { base: 18, rate: 0.28, name: '小蘇打', explain: '小蘇打能溶於水，但大量加入時也可能留下未溶部分。' },
+      citric: { base: 42, rate: 0.48, name: '檸檬酸', explain: '食品用檸檬酸晶體容易溶於水，常用來調整酸味。' },
+      msg: { base: 36, rate: 0.32, name: '味精', explain: '味精晶體可溶於水，形成看起來均勻的水溶液。' }
     };
 
     const tempRange = document.getElementById('tempRange');
@@ -709,7 +875,7 @@
       const amount = Number(amountRange.value);
       const solute = soluteSelect.value;
       const base = solubilityMap[solute].base;
-      const capacity = base + temp * 0.45;
+      const capacity = base + temp * solubilityMap[solute].rate;
       const percent = Math.max(0, Math.min(100, (capacity / amount) * 100));
       const dissolved = percent >= 100 ? 100 : percent;
 
@@ -718,7 +884,7 @@
       meterFill.style.width = `${dissolved}%`;
       thermoFill.style.height = `${Math.max(12, temp)}%`;
       liquidLevel.style.height = `${58 + Math.min(18, amount / 5)}%`;
-      solubilityExplain.textContent = `${solubilityMap[solute].explain} 目前估計最多可溶解約 ${capacity.toFixed(0)} 克。`;
+      solubilityExplain.textContent = `${solubilityMap[solute].explain} 目前教學模型的相對溶解容量約 ${capacity.toFixed(0)} 克（實際值會受水量、純度與操作方式影響）。`;
 
       if (temp < 20) tempDescriptor.textContent = '偏冷';
       else if (temp < 45) tempDescriptor.textContent = '微溫';
@@ -771,44 +937,151 @@
       ingredientButtons.appendChild(btn);
     });
 
+    const applicationData = [
+      { icon: '🧁', title: '蛋糕為什麼會膨起來？', effect: 'rise', result: '氣泡把麵糊撐大了！', text: '小蘇打或泡打粉遇到酸、水或熱會產生二氧化碳，氣泡被麵糊包住，蛋糕就變得鬆軟。' },
+      { icon: '🥗', title: '油醋醬要先搖一搖', effect: 'mix', result: '油滴暫時分散在醋裡！', text: '油和水不易互溶，用力搖晃可把油分成小油滴；加入芥末等乳化材料，能讓混合狀態維持更久。' },
+      { icon: '🥣', title: '太白粉讓湯變濃', effect: 'thicken', result: '澱粉吸水膨脹，湯變稠了！', text: '澱粉加水調開後受熱，顆粒會吸水膨脹並形成黏稠狀態，這種變化叫做澱粉糊化。' },
+      { icon: '🍳', title: '蛋白加熱會變白', effect: 'set', result: '蛋白質展開並重新連結！', text: '蛋白受熱後，蛋白質結構改變並互相連結，所以從透明液體變成白色固體，而且不容易恢復原狀。' },
+      { icon: '🍎', title: '切開的蘋果會變褐色', effect: 'brown', result: '接觸氧氣後發生褐變！', text: '蘋果切開後，果肉中的物質和空氣中的氧反應而變褐；塗上檸檬汁可以減慢這個過程。' },
+      { icon: '🍨', title: '鹽能幫助製作冰淇淋', effect: 'freeze', result: '冰鹽混合物可以變得更冷！', text: '在冰塊上加鹽會降低冰水混合物的凝固點，使周圍溫度降得更低，幫助冰淇淋液凝固。' }
+    ];
+
+    const applicationGrid = document.getElementById('applicationGrid');
+    applicationData.forEach(item => {
+      const card = document.createElement('article');
+      card.className = 'card application-card';
+      card.dataset.effect = item.effect;
+      card.innerHTML = `
+        <div class="application-stage" aria-hidden="true">
+          <div class="science-object">${item.icon}</div>
+          <div class="science-effect">${item.result}</div>
+        </div>
+        <h3>${item.title}</h3>
+        <p class="sub">${item.text}</p>
+        <button class="action-btn application-toggle" type="button" aria-pressed="false">看看變化</button>`;
+      const toggle = card.querySelector('.application-toggle');
+      toggle.addEventListener('click', () => {
+        const active = card.classList.toggle('active');
+        toggle.setAttribute('aria-pressed', String(active));
+        toggle.textContent = active ? '恢復原狀' : '看看變化';
+      });
+      applicationGrid.appendChild(card);
+    });
+
     const quizData = [
-      {
-        question: '哪一種材料最不容易真正溶在水中？',
-        options: ['食鹽', '砂糖', '食用油', '白醋'],
-        answer: 2,
-        explain: '食用油通常不會溶於水，還會浮在水面上。'
-      },
-      {
-        question: '紫高麗菜汁遇到酸性材料時，顏色通常會偏向哪一類？',
-        options: ['紅色或粉紅色', '紫色', '藍綠色', '透明無色'],
-        answer: 0,
-        explain: '天然指示劑遇酸時，常由紫色轉向紅色或粉紅色。'
-      },
-      {
-        question: '下列哪一個因素常會影響固體在水中的溶解量？',
-        options: ['水溫', '杯子的顏色', '桌子的高度', '教室燈光'],
-        answer: 0,
-        explain: '水溫常會影響某些固體在水中的最大溶解量。'
-      }
+      { question: '哪一種材料最不容易真正溶在水中？', options: ['食鹽', '砂糖', '食用油', '味精'], answer: 2, explain: '食用油通常不會溶於水，還會因密度較小而浮在水面。' },
+      { question: '麵粉加水形成麵糰，最適合怎麼描述？', options: ['完全消失', '完全溶解', '形成混合物與麵筋網絡', '變成氣體'], answer: 2, explain: '麵粉並非完全溶解；加水揉製後會形成麵糰與有彈性的麵筋網絡。' },
+      { question: '紫高麗菜汁遇到白醋時，顏色通常偏向哪一類？', options: ['紅色或粉紅色', '紫色', '藍綠色', '透明無色'], answer: 0, explain: '白醋偏酸性，紫高麗菜汁通常會轉為紅色或粉紅色。' },
+      { question: '紫高麗菜汁加入清水後，通常維持哪種顏色？', options: ['鮮紅色', '紫色', '綠色', '黃色'], answer: 1, explain: '清水接近中性，紫高麗菜汁通常維持原來的紫色。' },
+      { question: '小蘇打水會讓紫高麗菜汁較可能變成什麼顏色？', options: ['紅色', '橘色', '藍色', '無色'], answer: 2, explain: '小蘇打水偏鹼性，天然指示劑常轉為藍色系。' },
+      { question: '哪一個因素會影響某些固體在水中的最大溶解量？', options: ['水溫', '杯子的顏色', '桌子的高度', '房間的方向'], answer: 0, explain: '水溫常會改變某些固體的最大溶解量，但攪拌主要影響溶解速度。' },
+      { question: '「攪拌讓砂糖更快消失」主要表示什麼？', options: ['最大溶解量一定增加', '溶解速度加快', '砂糖變成水', '水溫一定下降'], answer: 1, explain: '攪拌會讓溶質和水接觸得更充分，主要加快溶解速度，不等於一定增加最大溶解量。' },
+      { question: '蛋糕烘烤時變得蓬鬆，主要和哪一種現象有關？', options: ['產生氣泡', '油浮在水上', '食鹽結晶', '蘋果褐變'], answer: 0, explain: '膨脹劑產生二氧化碳，氣泡被麵糊包住，使蛋糕膨起。' },
+      { question: '太白粉水加入熱湯後變稠，主要是哪一種變化？', options: ['蒸發', '澱粉糊化', '酸鹼中和', '結冰'], answer: 1, explain: '澱粉顆粒受熱吸水膨脹，讓液體變黏稠，稱為澱粉糊化。' },
+      { question: '切開的蘋果放久後變褐色，和什麼最有關？', options: ['接觸空氣中的氧', '完全溶解', '凝固點下降', '形成乳化液'], answer: 0, explain: '果肉接觸氧氣後發生酵素性褐變，檸檬汁可以減慢這個過程。' },
+      { question: '油醋醬放久後容易分層，最主要的原因是什麼？', options: ['油和水不易互溶', '醋會結冰', '油會變成鹽', '水會變成氣體'], answer: 0, explain: '油和水的性質不同、不易互溶，搖晃後形成的小油滴仍可能慢慢聚集並分層。' },
+      { question: '在冰塊上加鹽幫助製作冰淇淋，是利用哪個現象？', options: ['提高沸點到 100°C', '降低冰水混合物的凝固點', '讓鹽變成糖', '使油溶於水'], answer: 1, explain: '鹽會降低冰水混合物的凝固點，使混合物能降到更低溫，幫助冰淇淋液凝固。' }
     ];
 
     const quizQuestion = document.getElementById('quizQuestion');
     const quizOptions = document.getElementById('quizOptions');
     const quizFeedback = document.getElementById('quizFeedback');
-    const currentQuiz = quizData[Math.floor(Math.random() * quizData.length)];
-    quizQuestion.textContent = currentQuiz.question;
-    currentQuiz.options.forEach((opt, idx) => {
-      const btn = document.createElement('button');
-      btn.textContent = opt;
-      btn.addEventListener('click', () => {
-        [...quizOptions.children].forEach((b, i) => {
-          b.disabled = true;
-          if (i === currentQuiz.answer) b.classList.add('correct');
-          else if (i === idx && i !== currentQuiz.answer) b.classList.add('wrong');
+    const quizProgress = document.getElementById('quizProgress');
+    const quizScore = document.getElementById('quizScore');
+    const nextQuiz = document.getElementById('nextQuiz');
+    const restartQuiz = document.getElementById('restartQuiz');
+    let quizIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    function renderQuiz() {
+      const currentQuiz = quizData[quizIndex];
+      answered = false;
+      quizOptions.innerHTML = '';
+      quizQuestion.textContent = currentQuiz.question;
+      quizFeedback.textContent = '請選一個答案。';
+      quizProgress.textContent = `第 ${quizIndex + 1}／${quizData.length} 題`;
+      quizScore.textContent = `得分：${score}`;
+      nextQuiz.disabled = true;
+      nextQuiz.textContent = quizIndex === quizData.length - 1 ? '查看結果' : '下一題';
+
+      currentQuiz.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.addEventListener('click', () => {
+          if (answered) return;
+          answered = true;
+          if (idx === currentQuiz.answer) score += 1;
+          [...quizOptions.children].forEach((optionButton, optionIndex) => {
+            optionButton.disabled = true;
+            if (optionIndex === currentQuiz.answer) optionButton.classList.add('correct');
+            else if (optionIndex === idx) optionButton.classList.add('wrong');
+          });
+          quizScore.textContent = `得分：${score}`;
+          quizFeedback.textContent = idx === currentQuiz.answer ? `答對了！${currentQuiz.explain}` : `答案是「${currentQuiz.options[currentQuiz.answer]}」。${currentQuiz.explain}`;
+          nextQuiz.disabled = false;
         });
-        quizFeedback.textContent = idx === currentQuiz.answer ? `答對了！${currentQuiz.explain}` : `再想想看。${currentQuiz.explain}`;
+        quizOptions.appendChild(btn);
       });
-      quizOptions.appendChild(btn);
+    }
+
+    nextQuiz.addEventListener('click', () => {
+      if (!answered) return;
+      if (quizIndex < quizData.length - 1) {
+        quizIndex += 1;
+        renderQuiz();
+      } else {
+        quizQuestion.textContent = `完成挑戰！你答對 ${score}／${quizData.length} 題。`;
+        quizOptions.innerHTML = '';
+        quizFeedback.textContent = score >= 10 ? '太棒了！你已能把廚房現象和科學概念連結起來。' : '可以回到前面的頁籤再操作一次，然後重新挑戰。';
+        nextQuiz.disabled = true;
+      }
+    });
+
+    restartQuiz.addEventListener('click', () => {
+      quizIndex = 0;
+      score = 0;
+      renderQuiz();
+    });
+    renderQuiz();
+
+    const resourceData = [
+      { icon: '🎬', title: '用指示劑檢測水溶液的酸鹼性', desc: '愛學網教學影片，示範紫高麗菜汁的製作與酸鹼顏色判讀。', source: '國家教育研究院愛學網', grade: '國小高年級', url: 'https://stv.naer.edu.tw/watch/297492' },
+      { icon: '🧪', title: '紫色高麗菜汁互動學習資源', desc: '從常見水溶液、自製指示劑到酸鹼中和的數位學習內容。', source: '教育部教育大市集', grade: '國小高年級', url: 'https://market.cloud.edu.tw/resources/web/1682150' },
+      { icon: '🌈', title: '自製指示劑的奇妙變化', desc: '閱讀學生科展如何比較紫高麗菜、黑豆、葡萄等天然指示劑。', source: '國立臺灣科學教育館', grade: '國小中高年級', url: 'https://www.ntsec.edu.tw/science/detail.aspx?a=21&cat=42&sid=1755' },
+      { icon: '🥣', title: '小蘇打為什麼能讓肉變嫩？', desc: '認識食品用小蘇打的性質、用途與安全注意事項。', source: '衛生福利部食品藥物管理署', grade: '親子共讀', url: 'https://www.fda.gov.tw/tc/newsContent.aspx?cid=5049&id=24312' },
+      { icon: '🧁', title: '膨脹劑如何讓糕點變鬆軟？', desc: '了解小蘇打等膨脹劑產生氣體、使食品膨鬆的原理。', source: '衛生福利部食品藥物管理署', grade: '國小高年級', url: 'https://www.fda.gov.tw/Tc/PublishOtherEpaperContent.aspx?id=1556&r=191597844&tid=5118' },
+      { icon: '🔬', title: '紫高麗菜與彩色溶液', desc: '進一步閱讀天然酸鹼指示劑在酸性、中性與鹼性環境中的顏色。', source: '臺大科學 Online', grade: '進階閱讀', url: 'https://case.ntu.edu.tw/highscope/%E5%8C%96%E5%AD%B8%E7%AB%B6%E8%B3%BD%E6%B4%BB%E5%8B%95%EF%BC%9A%E5%89%B5%E9%80%A0%E5%A4%9A%E5%B1%A4%E5%A4%9A%E5%BD%A9%E7%9A%84%E6%BA%B6%E6%B6%B2%EF%BC%88creating-multi-layer-and-colorful-solutions/index.html' }
+    ];
+
+    const resourceGrid = document.getElementById('resourceGrid');
+    resourceData.forEach(item => {
+      const card = document.createElement('article');
+      card.className = 'card resource-card';
+      card.innerHTML = `<div class="material-icon">${item.icon}</div><h3>${item.title}</h3><p class="sub">${item.desc}</p><div class="resource-meta">來源：${item.source}<br>適用：${item.grade}｜連結檢查：2026-07-12</div><a class="resource-link" href="${item.url}" target="_blank" rel="noopener noreferrer">開啟學習資源 ↗</a>`;
+      resourceGrid.appendChild(card);
+    });
+
+    const speakSummary = document.getElementById('speakSummary');
+    const stopSpeaking = document.getElementById('stopSpeaking');
+    const speechStatus = document.getElementById('speechStatus');
+    speakSummary.addEventListener('click', () => {
+      if (!('speechSynthesis' in window)) {
+        speechStatus.textContent = '這個瀏覽器目前不支援語音朗讀。';
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(document.getElementById('voiceSummary').textContent);
+      utterance.lang = 'zh-TW';
+      utterance.rate = 0.9;
+      speechStatus.textContent = '正在準備語音朗讀…';
+      utterance.onstart = () => speechStatus.textContent = '正在朗讀學習重點…';
+      utterance.onend = () => speechStatus.textContent = '朗讀完成，可以再聽一次。';
+      window.speechSynthesis.speak(utterance);
+    });
+    stopSpeaking.addEventListener('click', () => {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      speechStatus.textContent = '朗讀已停止。';
     });
   </script>
 </body>
